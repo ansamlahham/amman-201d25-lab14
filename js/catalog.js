@@ -12,7 +12,9 @@ function populateForm() {
   //TODO: Add an <option> tag inside the form's select for each product
   const selectElement = document.getElementById('items');
   for (let i in Product.allProducts) {
-
+let option=document.createElement('option');
+option.text=Product.allProducts[i].name;
+selectElement.appendChild(option);
   }
 
 }
@@ -23,7 +25,7 @@ function populateForm() {
 function handleSubmit(event) {
 
   // TODO: Prevent the page from reloading
-
+event.preventDefault();
   // Do all the things ...
   addSelectedItemToCart();
   cart.saveToLocalStorage();
@@ -35,17 +37,29 @@ function handleSubmit(event) {
 // TODO: Add the selected item and quantity to the cart
 function addSelectedItemToCart() {
   // TODO: suss out the item picked from the select list
+  let item=document.getElementById('items').value
   // TODO: get the quantity
+  let quantity=document.getElementById('quantity').value
   // TODO: using those, add one item to the Cart
+  cart.addItem(item,quantity);
 }
 
 // TODO: Update the cart count in the header nav with the number of items in the Cart
-function updateCounter() {}
+let counter = 1
+function updateCounter() {
+  let counterValue = document.getElementById('itemCount');
+  counterValue.textContent=counter++;
+}
 
 // TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
 function updateCartPreview() {
   // TODO: Get the item and quantity from the form
+  let item=document.getElementById('items').value;
   // TODO: Add a new element to the cartContents div with that information
+  let cartContents=document.getElementById('cartContents');
+  let listElement=document.createElement('li');
+  cartContents.appendChild(listElement);
+  listElement.textContent=`you chose ${item} with ${quantity} quantity`
 }
 
 // Set up the "submit" event listener on the form.
@@ -57,3 +71,4 @@ catalogForm.addEventListener('submit', handleSubmit);
 // Before anything else of value can happen, we need to fill in the select
 // drop down list in the form.
 populateForm();
+addSelectedItemToCart();
